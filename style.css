@@ -1,0 +1,773 @@
+@import url(
+    "https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap"
+);
+
+
+/*====================================================
+=                    VARIABLES                       =
+====================================================*/
+
+:root {
+    --white: #ffffff;
+    --soft-text: #dce7ff;
+    --background: #000207;
+}
+
+
+/*====================================================
+=                      RESET                         =
+====================================================*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+    width: 100%;
+    height: 100%;
+    min-height: 100dvh;
+}
+
+html {
+    background: var(--background);
+}
+
+body {
+    overflow: hidden;
+    overscroll-behavior: none;
+
+    color: var(--white);
+    background: var(--background);
+
+    font-family: "Montserrat", sans-serif;
+
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+button {
+    font: inherit;
+}
+
+#app {
+    position: relative;
+}
+
+
+/*====================================================
+=                    ESCENA 3D                       =
+====================================================*/
+
+#sceneContainer {
+    position: fixed;
+    inset: 0;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            #061126 0%,
+            #01050e 48%,
+            #000105 100%
+        );
+}
+
+#sceneContainer canvas {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    touch-action: none;
+}
+
+
+/*====================================================
+=                 PANTALLA INICIAL                   =
+====================================================*/
+
+.start-screen {
+    position: fixed;
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        calc(24px + env(safe-area-inset-top))
+        24px
+        calc(24px + env(safe-area-inset-bottom));
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at 50% 32%,
+            rgba(71, 103, 167, 0.32),
+            transparent 39%
+        ),
+        linear-gradient(
+            180deg,
+            rgba(5, 12, 29, 0.98),
+            rgba(0, 2, 8, 0.99)
+        );
+
+    transition:
+        opacity 1.2s ease,
+        visibility 1.2s ease;
+}
+
+.start-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.start-content {
+    width: min(92%, 520px);
+}
+
+.start-logo {
+    width: clamp(126px, 24vw, 165px);
+    height: clamp(126px, 24vw, 165px);
+
+    display: block;
+
+    margin: 0 auto 26px;
+
+    object-fit: cover;
+    border-radius: 50%;
+
+    filter:
+        drop-shadow(
+            0 0 20px
+            rgba(255, 255, 255, 0.38)
+        )
+        drop-shadow(
+            0 0 54px
+            rgba(126, 166, 255, 0.26)
+        );
+
+    animation:
+        breathe 4s ease-in-out infinite;
+}
+
+.start-content p {
+    margin: 0 auto 20px;
+
+    color: var(--soft-text);
+
+    font-size:
+        clamp(
+            0.98rem,
+            2.8vw,
+            1.12rem
+        );
+
+    line-height: 1.8;
+}
+
+.load-status {
+    display: block;
+
+    min-height: 20px;
+    margin-bottom: 22px;
+
+    color:
+        rgba(255, 255, 255, 0.62);
+
+    font-size: 0.8rem;
+}
+
+
+/*====================================================
+=                     BOTONES                        =
+====================================================*/
+
+.main-button {
+    min-width: 220px;
+
+    padding: 15px 28px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.30);
+
+    border-radius: 999px;
+
+    color: #ffffff;
+
+    background:
+        rgba(255, 255, 255, 0.09);
+
+    backdrop-filter: blur(12px);
+
+    cursor: pointer;
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.main-button:hover,
+.main-button:focus-visible {
+    transform:
+        translateY(-3px)
+        scale(1.03);
+
+    background:
+        rgba(255, 255, 255, 0.16);
+
+    box-shadow:
+        0 0 18px
+        rgba(255, 255, 255, 0.20),
+
+        0 0 50px
+        rgba(117, 158, 255, 0.18);
+}
+
+
+/*====================================================
+=                       CARTA                        =
+====================================================*/
+
+.letter-card {
+    position: fixed;
+    inset: 0;
+
+    z-index: 900;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        calc(18px + env(safe-area-inset-top))
+        18px
+        calc(18px + env(safe-area-inset-bottom));
+
+    background:
+        rgba(0, 3, 12, 0.62);
+
+    backdrop-filter: blur(11px);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.9s ease,
+        visibility 0.9s ease;
+}
+
+.letter-card.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.letter-content {
+    width: min(94%, 650px);
+
+    max-height:
+        calc(
+            100dvh -
+            36px -
+            env(safe-area-inset-top) -
+            env(safe-area-inset-bottom)
+        );
+
+    overflow-y: auto;
+
+    padding: 34px 28px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.18);
+
+    border-radius: 28px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.11),
+            rgba(255, 255, 255, 0.05)
+        );
+
+    box-shadow:
+        0 0 42px
+        rgba(124, 165, 255, 0.14),
+
+        0 18px 55px
+        rgba(0, 0, 0, 0.38);
+
+    text-align: center;
+
+    transform:
+        translateY(24px)
+        scale(0.95);
+
+    transition:
+        transform 0.9s ease;
+
+    scrollbar-width: none;
+}
+
+.letter-content::-webkit-scrollbar {
+    display: none;
+}
+
+.letter-card.visible .letter-content {
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+.letter-icon {
+    width: 72px;
+    height: 72px;
+
+    margin-bottom: 16px;
+
+    object-fit: cover;
+    border-radius: 50%;
+
+    filter:
+        drop-shadow(
+            0 0 20px
+            rgba(255, 255, 255, 0.28)
+        );
+}
+
+.letter-content h2 {
+    margin-bottom: 18px;
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size:
+        clamp(
+            1.9rem,
+            5vw,
+            3.6rem
+        );
+
+    font-weight: 500;
+    line-height: 1.25;
+
+    text-shadow:
+        0 0 12px
+        rgba(255, 255, 255, 0.92),
+
+        0 0 28px
+        rgba(151, 185, 255, 0.60);
+}
+
+.letter-content p {
+    margin-bottom: 18px;
+
+    color:
+        rgba(255, 255, 255, 0.84);
+
+    font-size:
+        clamp(
+            0.94rem,
+            2.5vw,
+            1.05rem
+        );
+
+    line-height: 1.8;
+}
+
+.letter-content strong {
+    display: block;
+
+    margin-bottom: 28px;
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size: 1.45rem;
+    font-weight: 500;
+}
+
+
+/*====================================================
+=                  CAPA DE FRASES                    =
+====================================================*/
+
+.phrase-layer {
+    position: fixed;
+    inset: 0;
+
+    z-index: 300;
+
+    overflow: hidden;
+
+    pointer-events: none;
+}
+
+.floating-phrase {
+    position: absolute;
+
+    width: max-content;
+    max-width: min(45vw, 390px);
+
+    padding: 8px 13px;
+
+    color: #ffffff;
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size:
+        clamp(
+            1rem,
+            2.2vw,
+            1.45rem
+        );
+
+    font-style: italic;
+    line-height: 1.35;
+    text-align: center;
+
+    text-shadow:
+        0 0 7px #ffffff,
+
+        0 0 18px
+        rgba(148, 182, 255, 0.86),
+
+        0 0 36px
+        rgba(100, 143, 255, 0.48);
+
+    opacity: 0;
+
+    transform:
+        translate(-50%, -50%)
+        scale(0.70);
+
+    transition:
+        opacity 0.75s ease,
+        transform 0.75s ease;
+}
+
+.floating-phrase.visible {
+    opacity: 1;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1);
+}
+
+.floating-phrase.leaving {
+    opacity: 0;
+
+    transform:
+        translate(-50%, -58%)
+        scale(1.08);
+}
+
+
+/*====================================================
+=                     INTERFAZ                       =
+====================================================*/
+
+.interface {
+    position: fixed;
+
+    top:
+        calc(
+            14px +
+            env(safe-area-inset-top)
+        );
+
+    left: 16px;
+    right: 16px;
+
+    z-index: 400;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity 1s ease,
+        visibility 1s ease;
+}
+
+body.started .interface {
+    opacity: 1;
+    visibility: visible;
+}
+
+body.letter-open .interface,
+body.letter-open .hint {
+    opacity: 0.18;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    color:
+        rgba(255, 255, 255, 0.78);
+
+    font-size: 0.9rem;
+    letter-spacing: 1.4px;
+}
+
+.controls {
+    display: flex;
+    gap: 8px;
+}
+
+.control-button {
+    width: 44px;
+    height: 44px;
+
+    display: grid;
+    place-items: center;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.16);
+
+    border-radius: 50%;
+
+    color: #ffffff;
+
+    background:
+        rgba(255, 255, 255, 0.07);
+
+    backdrop-filter: blur(12px);
+
+    font-size: 1.05rem;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease;
+}
+
+.control-button:hover,
+.control-button:focus-visible {
+    transform: scale(1.08);
+
+    background:
+        rgba(255, 255, 255, 0.14);
+}
+
+
+/*====================================================
+=                   TEXTO DE AYUDA                   =
+====================================================*/
+
+.hint {
+    position: fixed;
+
+    left: 50%;
+
+    bottom:
+        calc(
+            15px +
+            env(safe-area-inset-bottom)
+        );
+
+    z-index: 250;
+
+    width: 92%;
+
+    transform:
+        translateX(-50%);
+
+    color:
+        rgba(255, 255, 255, 0.46);
+
+    font-size: 0.67rem;
+    letter-spacing: 0.7px;
+    text-align: center;
+
+    opacity: 0;
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity 1s ease,
+        visibility 1s ease;
+}
+
+body.started .hint {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/*====================================================
+=                    ANIMACIÓN                       =
+====================================================*/
+
+@keyframes breathe {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.055);
+    }
+}
+
+
+/*====================================================
+=                      TABLET                        =
+====================================================*/
+
+@media (max-width: 860px) {
+
+    .brand strong {
+        display: none;
+    }
+
+    .floating-phrase {
+        max-width: 72vw;
+    }
+
+}
+
+
+/*====================================================
+=                      CELULAR                       =
+====================================================*/
+
+@media (max-width: 600px) {
+
+    .start-screen {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .start-logo {
+        width: 136px;
+        height: 136px;
+    }
+
+    .start-content p {
+        max-width: 330px;
+    }
+
+    .main-button {
+        min-width:
+            min(
+                235px,
+                82vw
+            );
+
+        padding:
+            14px 22px;
+    }
+
+    .interface {
+        left: 12px;
+        right: 12px;
+    }
+
+    .controls {
+        gap: 6px;
+    }
+
+    .control-button {
+        width: 40px;
+        height: 40px;
+
+        font-size: 1rem;
+    }
+
+    .letter-content {
+        width: 96%;
+
+        padding: 27px 19px;
+
+        border-radius: 24px;
+    }
+
+    .letter-icon {
+        width: 64px;
+        height: 64px;
+    }
+
+    .letter-content h2 {
+        font-size:
+            clamp(
+                1.8rem,
+                8vw,
+                2.35rem
+            );
+    }
+
+    .floating-phrase {
+        max-width: 82vw;
+
+        padding: 7px 10px;
+
+        font-size:
+            clamp(
+                1rem,
+                5vw,
+                1.2rem
+            );
+    }
+
+    .hint {
+        width: 88%;
+
+        font-size: 0.58rem;
+        line-height: 1.45;
+    }
+
+}
+
+
+/*====================================================
+=             CELULARES MUY PEQUEÑOS                =
+====================================================*/
+
+@media (max-width: 380px) {
+
+    .control-button {
+        width: 37px;
+        height: 37px;
+    }
+
+    .controls {
+        gap: 5px;
+    }
+
+    .letter-content {
+        padding: 24px 16px;
+    }
+
+    .letter-content h2 {
+        font-size: 1.75rem;
+    }
+
+}

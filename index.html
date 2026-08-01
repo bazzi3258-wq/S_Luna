@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta
+        name="description"
+        content="Una experiencia romántica con una luna 3D."
+    >
+
+    <meta name="theme-color" content="#000207">
+
+    <title>S_Luna 🌙</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="assets/images/icon.png"
+    >
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Motor 3D -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"
+        defer
+    ></script>
+
+    <!-- Código principal -->
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <main id="app">
+
+        <!-- Escena 3D -->
+        <div id="sceneContainer"></div>
+
+        <!-- Pantalla inicial -->
+        <section
+            class="start-screen"
+            id="startScreen"
+        >
+            <div class="start-content">
+
+                <img
+                    class="start-logo"
+                    src="assets/images/icon.png"
+                    alt="Icono de luna"
+                >
+
+                <p>
+                    Preparé un pequeño lugar entre las estrellas
+                    especialmente para ti.
+                </p>
+
+                <span
+                    class="load-status"
+                    id="loadStatus"
+                >
+                    Preparando la luna...
+                </span>
+
+                <button
+                    class="main-button"
+                    id="startButton"
+                    type="button"
+                >
+                    Entrar al cielo 🌙
+                </button>
+
+            </div>
+        </section>
+
+        <!-- Carta del segundo 15 -->
+        <section
+            class="letter-card"
+            id="letterCard"
+            aria-live="polite"
+        >
+            <div class="letter-content">
+
+                <img
+                    class="letter-icon"
+                    src="assets/images/icon.png"
+                    alt=""
+                >
+
+                <h2>
+                    Feliz Día de la Novia
+                    mi amor ❤️
+                </h2>
+
+                <p>
+                    Hice este pequeño cielo para ti,
+                    porque sé cuánto te gusta mirar la luna
+                </p>
+
+                <strong>
+                    Te amo mucho.
+                </strong>
+
+                <button
+                    class="main-button"
+                    id="continueButton"
+                    type="button"
+                >
+                    Seguir viendo la luna
+                </button>
+
+            </div>
+        </section>
+
+        <!-- Frases románticas -->
+        <div
+            class="phrase-layer"
+            id="phraseLayer"
+            aria-live="polite"
+        ></div>
+
+        <!-- Controles -->
+        <header class="interface">
+
+            <div class="brand">
+                <span>🌙</span>
+                <strong>S_Luna</strong>
+            </div>
+
+            <div class="controls">
+
+                <button
+                    class="control-button"
+                    id="zoomOutButton"
+                    type="button"
+                    aria-label="Alejar la luna"
+                    title="Alejar la luna"
+                >
+                    −
+                </button>
+
+                <button
+                    class="control-button"
+                    id="resetButton"
+                    type="button"
+                    aria-label="Restablecer el zoom"
+                    title="Restablecer el zoom"
+                >
+                    ⟳
+                </button>
+
+                <button
+                    class="control-button"
+                    id="zoomInButton"
+                    type="button"
+                    aria-label="Acercar la luna"
+                    title="Acercar la luna"
+                >
+                    +
+                </button>
+
+                <button
+                    class="control-button"
+                    id="musicButton"
+                    type="button"
+                    aria-label="Activar o silenciar música"
+                    title="Activar o silenciar música"
+                >
+                    🔊
+                </button>
+
+            </div>
+
+        </header>
+
+        <!-- Instrucción -->
+        <p class="hint">
+            Usa la rueda, los botones o dos dedos para acercarte y alejarte
+        </p>
+
+        <!-- Música -->
+        <audio
+            id="backgroundMusic"
+            src="assets/music/cancion.mp3"
+            preload="auto"
+            loop
+        ></audio>
+
+    </main>
+
+</body>
+</html>
